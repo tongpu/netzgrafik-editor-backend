@@ -37,7 +37,9 @@ jobs:
             try {
               const { data: versions } = await github.rest.packages.getAllPackageVersionsForPackageOwnedByUser(params);
             } catch(e) {
-              throw new Error('Error while looking for package `${process.env.PACKAGE_NAME}`, please check the log');
+              console.error('Error while looking for package `${process.env.PACKAGE_NAME}`, please check the log');
+              console.error(e);
+              versions = [];
             }
             let packageDeletionFailed = false;
             for (const version of versions.filter(isExpiredPrTag)) {
